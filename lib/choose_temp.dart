@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 class ChooseTemplatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -18,7 +19,7 @@ class ChooseTemplatePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 18.0),
+            padding: EdgeInsets.only(left: size.width * .01),
             child: Align(
               alignment: Alignment.topLeft,
               child: Text(
@@ -31,35 +32,14 @@ class ChooseTemplatePage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            height: 50,
-          ),
+          SizedBox(height: size.height * .05),
           Container(
             width: double.infinity,
-            height: 500,
+            height: size.height * .6,
             child: ListView.builder(
                 itemCount: 2,
                 itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      InkWell(
-                        child: Container(
-                          child: Image(
-                            image: AssetImage('assets/c/$index.jpg'),
-                          ),
-                          width: 370,
-                        ),
-                        onTap: () {
-                          Get.to(EditAndSave(
-                            index: index,
-                          ));
-                        },
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  );
+                  return certificateTemp(index, size);
                 }),
             // child: ListWheelScrollView(
             //   itemExtent: 350,
@@ -80,6 +60,29 @@ class ChooseTemplatePage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Column certificateTemp(int index, Size size) {
+    return Column(
+      children: [
+        InkWell(
+          child: Container(
+            child: Image(
+              image: AssetImage('assets/c/$index.jpg'),
+            ),
+            width: size.width * .9,
+          ),
+          onTap: () {
+            Get.to(EditAndSave(
+              index: index,
+            ));
+          },
+        ),
+        SizedBox(
+          height: size.height * .01,
+        ),
+      ],
     );
   }
 }
