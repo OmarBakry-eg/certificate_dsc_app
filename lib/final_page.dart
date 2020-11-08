@@ -268,14 +268,17 @@ class _EditAndSaveState extends State<EditAndSave> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: colorsList
             .map(
-              (color) => Container(
-                  width: isLandscape ? size.width * .13 : size.width * .16,
-                  height: isLandscape ? size.height * .2 : size.height * .08,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: .2),
-                    shape: BoxShape.circle,
-                    color: color,
-                  )),
+              (color) => InkWell(
+                onTap: () => print('$color'),
+                child: Container(
+                    width: isLandscape ? size.width * .13 : size.width * .16,
+                    height: isLandscape ? size.height * .2 : size.height * .08,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: .2),
+                      shape: BoxShape.circle,
+                      color: color,
+                    )),
+              ),
             )
             .toList());
   }
