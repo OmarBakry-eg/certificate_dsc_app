@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'main.dart';
 import 'package:get/get.dart';
 
-///TODO : Implement Responsive on sizes and padding
 class ChooseTemplatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
