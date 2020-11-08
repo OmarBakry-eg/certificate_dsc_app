@@ -16,10 +16,13 @@ class WelcomePage extends StatelessWidget {
   }
 
   Column welcomeWidget(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        isLandscape ? SizedBox.shrink() : Spacer(),
         Expanded(
           flex: 1,
           child: Text(
