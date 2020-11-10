@@ -89,6 +89,7 @@ class _EditAndSaveState extends State<EditAndSave> {
                   name: name,
                   fontSize: textFontSize,
                   color: textColor,
+                  index: widget.index,
                 ));
               },
             ),

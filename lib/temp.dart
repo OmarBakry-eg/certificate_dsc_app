@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:uuid/uuid.dart';
 import 'main.dart';
 import 'package:get/get.dart';
 import 'package:save_in_gallery/save_in_gallery.dart';
@@ -12,11 +13,13 @@ class BuildTemp extends StatefulWidget {
   final String name, fontFamily;
   final num fontSize;
   final Color color;
+  final int index;
   BuildTemp(
       {@required this.fontFamily,
       @required this.name,
       @required this.fontSize,
-      this.color = Colors.black});
+      this.color = Colors.black,
+      this.index});
 
   @override
   _BuildTempState createState() => _BuildTempState();
@@ -25,6 +28,14 @@ class BuildTemp extends StatefulWidget {
 class _BuildTempState extends State<BuildTemp> {
   GlobalKey key1;
   Uint8List bytes1;
+  var id;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    id = Uuid().v4();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,11 +49,11 @@ class _BuildTempState extends State<BuildTemp> {
           builder: (key) {
             this.key1 = key;
             return MyTemp(
-              name: widget.name,
-              fontFamily: widget.fontFamily,
-              fontSize: widget.fontSize,
-              color: widget.color,
-            );
+                name: widget.name,
+                fontFamily: widget.fontFamily,
+                fontSize: widget.fontSize,
+                color: widget.color,
+                index: widget.index);
           },
         ),
       ),
@@ -55,7 +66,7 @@ class _BuildTempState extends State<BuildTemp> {
           final result = await _imageSaver.saveImage(
               imageBytes: bytes1,
               directoryName: 'DSC Certificate',
-              imageName: '${widget.name}\'s Certificate');
+              imageName: '${widget.name}\'s Certificate_$id');
           print(result);
           result
               ? Get.snackbar('DONE', 'Image Saved',
@@ -72,16 +83,18 @@ class MyTemp extends StatelessWidget {
   final String name, fontFamily;
   final num fontSize;
   final Color color;
+  final index;
   MyTemp(
       {@required this.fontFamily,
       @required this.name,
       @required this.fontSize,
-      this.color = Colors.black});
+      this.color = Colors.black,
+      this.index});
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.asset('assets/c/0.jpg'),
+        Image.asset('assets/c/$index.jpg'),
         //TODO: Implement Responsive position depended on fontFamily AND fontSize
         Positioned(
           top: 140,

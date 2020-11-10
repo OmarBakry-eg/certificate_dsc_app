@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: Color(0xFF32496B),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ChooseTemplatePage(),
+      home: WelcomePage(),
     );
   }
 }
