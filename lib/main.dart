@@ -1,3 +1,5 @@
+import 'package:certificate_dsc_app/choose_temp.dart';
+import 'package:certificate_dsc_app/temp.dart';
 import 'package:certificate_dsc_app/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: Color(0xFF32496B),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: WelcomePage(),
+      home: ChooseTemplatePage(),
     );
   }
 }

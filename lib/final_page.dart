@@ -1,8 +1,11 @@
+import 'package:certificate_dsc_app/temp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'main.dart';
+import 'package:get/get.dart';
 
+//TODO: Implement  +++ form validation (VI) +++ , more responsive as possible AND refactoring #CODE#
 class EditAndSave extends StatefulWidget {
   final int index;
   EditAndSave({this.index});
@@ -11,6 +14,27 @@ class EditAndSave extends StatefulWidget {
 }
 
 class _EditAndSaveState extends State<EditAndSave> {
+  String name;
+  String fontFamily = "OpenSans";
+  Color textColor;
+  num textFontSize = 20;
+  List<String> fontList = [
+    "OpenSans",
+    "Roboto",
+    "Lato",
+    "Pacifico",
+    "Lobester",
+    "DancingScript"
+  ];
+  List<num> fontSizeList = [20, 25, 30, 35, 40];
+  FocusScopeNode currentFocus;
+  void unFocus() {
+    currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+  }
+
   // ignore: non_constant_identifier_names
   final UNIVERSITY_NAME = "eg: Suez Canal University...";
   // ignore: non_constant_identifier_names
@@ -34,6 +58,11 @@ class _EditAndSaveState extends State<EditAndSave> {
     Colors.deepPurpleAccent,
     Colors.greenAccent
   ];
+  @override
+  void initState() {
+    super.initState();
+    textColor = Colors.black;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,33 +70,48 @@ class _EditAndSaveState extends State<EditAndSave> {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
 
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: text,
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.done,
-              color: Colors.black,
-              size: 30,
+    return GestureDetector(
+      onTap: unFocus,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          title: text,
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.done,
+                color: Colors.black,
+                size: 30,
+              ),
+              onPressed: () {
+                Get.to(BuildTemp(
+                  fontFamily: fontFamily,
+                  name: name,
+                  fontSize: textFontSize,
+                  color: textColor,
+                ));
+              },
             ),
-            onPressed: () {
-              print('Done');
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            editCertificate(size, isLandscape),
-            textField(UNIVERSITY_NAME, DSC_NAME, size, isLandscape),
-            textField(AWARD, DESCRIPTION, size, isLandscape),
-            selectFont(isLandscape, size, FONTS),
-            fontSize(isLandscape, size, FONT_SIZE),
-            selectColor("Colors :", size, isLandscape)
           ],
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              editCertificate(size, isLandscape),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    textField(UNIVERSITY_NAME, DSC_NAME, size, isLandscape),
+                    textField(AWARD, DESCRIPTION, size, isLandscape),
+                    selectFont(isLandscape, size, FONTS),
+                    fontSize(isLandscape, size, FONT_SIZE),
+                    selectColor("Colors :", size, isLandscape)
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -115,7 +159,6 @@ class _EditAndSaveState extends State<EditAndSave> {
   }
 
   Widget selectFont(bool isLandscape, Size size, String lable) {
-    int dropDownIndex = 1;
     return Align(
       alignment: Alignment.topLeft,
       child: Column(
@@ -130,47 +173,41 @@ class _EditAndSaveState extends State<EditAndSave> {
             ),
           ),
           Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                      width: 1, color: Theme.of(context).primaryColor)),
-              width: isLandscape ? size.width * .4 : size.width * .6,
-              height: isLandscape ? size.height * .1 : size.height * .070,
-              child: DropdownButton(
-                underline: DropdownButtonHideUnderline(
-                  child: SizedBox.shrink(),
-                ),
-                isExpanded: true,
-                hint: Text('Select Font'),
-                value: dropDownIndex,
-                items: [
-                  DropdownMenuItem(
-                    child: Text('Open Sans'),
-                    value: 1,
-                  ),
-                  DropdownMenuItem(
-                    child: Text('Times Roman'),
-                    value: 2,
-                  ),
-                  DropdownMenuItem(
-                    child: Text('Sans serif'),
-                    value: 3,
+            decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(
+                    width: 1, color: Theme.of(context).primaryColor)),
+            width: isLandscape ? size.width * .4 : size.width * .6,
+            height: isLandscape ? size.height * .1 : size.height * .070,
+            child: DropdownButton(
+              underline: DropdownButtonHideUnderline(
+                child: SizedBox.shrink(),
+              ),
+              isExpanded: true,
+              hint: Text('Select Font'),
+              value: fontFamily,
+              items: fontList
+                  .map(
+                    (e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(e),
+                    ),
                   )
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    dropDownIndex = value;
-                  });
-                },
-              ))
+                  .toList(),
+              onChanged: (val) {
+                setState(() {
+                  fontFamily = val;
+                });
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 
   Widget fontSize(bool isLandscape, Size size, String lable) {
-    int dropDownIndex = 1;
     return Align(
       alignment: Alignment.topLeft,
       child: Column(
@@ -198,24 +235,18 @@ class _EditAndSaveState extends State<EditAndSave> {
                 ),
                 isExpanded: true,
                 hint: Text('Select Font'),
-                value: dropDownIndex,
-                items: [
-                  DropdownMenuItem(
-                    child: Text('14 px'),
-                    value: 1,
-                  ),
-                  DropdownMenuItem(
-                    child: Text('20 px'),
-                    value: 2,
-                  ),
-                  DropdownMenuItem(
-                    child: Text('24 px'),
-                    value: 3,
-                  )
-                ],
+                value: textFontSize,
+                items: fontSizeList
+                    .map(
+                      (e) => DropdownMenuItem(
+                        child: Text("${e.toString()} px"),
+                        value: e,
+                      ),
+                    )
+                    .toList(),
                 onChanged: (value) {
                   setState(() {
-                    dropDownIndex = value;
+                    textFontSize = value;
                   });
                 },
               ))
@@ -269,7 +300,11 @@ class _EditAndSaveState extends State<EditAndSave> {
         children: colorsList
             .map(
               (color) => InkWell(
-                onTap: () => print('$color'),
+                onTap: () {
+                  setState(() {
+                    textColor = color;
+                  });
+                },
                 child: Container(
                     width: isLandscape ? size.width * .13 : size.width * .16,
                     height: isLandscape ? size.height * .2 : size.height * .08,
@@ -304,7 +339,18 @@ class _EditAndSaveState extends State<EditAndSave> {
             Positioned(
               top: isLandscape ? size.height * .68 : size.height * .15,
               left: isLandscape ? size.width * .24 : size.width * .2,
-              child: Container(width: size.width * .34, child: TextField()),
+              child: Container(
+                width: size.width * .34,
+                child: TextField(
+                  style: TextStyle(
+                    color: textColor,
+                    fontFamily: fontFamily,
+                  ),
+                  onChanged: (val) {
+                    name = val;
+                  },
+                ),
+              ),
             ),
           ],
         ),
