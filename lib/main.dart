@@ -1,6 +1,4 @@
-import 'package:certificate_dsc_app/choose_temp.dart';
-import 'package:certificate_dsc_app/temp.dart';
-import 'package:certificate_dsc_app/welcome.dart';
+import 'package:certificate_dsc_app/screen/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';

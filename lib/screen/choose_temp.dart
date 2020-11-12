@@ -1,7 +1,7 @@
-import 'package:certificate_dsc_app/final_page.dart';
+import 'file:///C:/Users/like/AndroidStudioProjects/certificate_dsc_app/lib/screen/final_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'main.dart';
+import '../main.dart';
 import 'package:get/get.dart';
 
 class ChooseTemplatePage extends StatelessWidget {
@@ -40,22 +40,6 @@ class ChooseTemplatePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return certificateTemp(index, size);
                 }),
-            // child: ListWheelScrollView(
-            //   itemExtent: 350,
-            //   diameterRatio: 1,
-            //   children: img.map((e) {
-            //     return InkWell(
-            //       onTap: () {
-            //         print(e);
-            //       },
-            //       child: Container(
-            //         child: Image(
-            //           image: AssetImage(e),
-            //         ),
-            //       ),
-            //     );
-            //   }).toList(),
-            // ),
           ),
         ],
       ),
