@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 class DataModel {
@@ -11,6 +10,6 @@ class DataModel {
     this.name,
     this.fontFamily = "OpenSans",
     this.textColor = Colors.black,
-    this.textFontSize = 20,
+    this.textFontSize = 20.0,
   });
 }

@@ -9,9 +9,12 @@ import 'package:certificate_dsc_app/screen/temp.dart';
 import 'package:certificate_dsc_app/model/consts.dart';
 import 'package:flutter_hsvcolor_picker/flutter_hsvcolor_picker.dart';
 
-//TODO: Implement  +++ form validation (VI) +++ , more responsive as possible AND refactoring #CODE#
 class EditAndSave extends StatelessWidget {
   final int index;
+
+  final dscController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final nameController = TextEditingController();
   EditAndSave({this.index});
   final dataController = Get.put(DataController());
   @override
@@ -49,13 +52,10 @@ class EditAndSave extends StatelessWidget {
                   size: 30,
                 ),
                 onPressed: () {
-                  Get.to(BuildTemp(
-                    fontFamily: c.dataModel.value.fontFamily,
-                    name: c.dataModel.value.name,
-                    fontSize: c.dataModel.value.textFontSize,
-                    color: c.dataModel.value.textColor,
-                    index: index,
-                  ));
+                  if (!validateFields(context)) {
+                    return;
+                  }
+                  goToBuildTemp(c);
                 },
               ),
             ],
@@ -69,8 +69,9 @@ class EditAndSave extends StatelessWidget {
                   child: Column(
                     children: [
                       textField(UNIVERSITY_NAME, DSC_NAME, size, isLandscape,
-                          context),
-                      textField(AWARD, DESCRIPTION, size, isLandscape, context),
+                          context, dscController),
+                      textField(AWARD, DESCRIPTION, size, isLandscape, context,
+                          descriptionController),
                       selectFont(isLandscape, size, FONTS, context),
                       fontSize(isLandscape, size, FONT_SIZE, context),
                       selectColor("Colors :", size, isLandscape, context)
@@ -83,6 +84,39 @@ class EditAndSave extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool validateFields(BuildContext context) {
+    if (nameController.text.isNullOrBlank ||
+        dscController.text.isNullOrBlank ||
+        descriptionController.text.isNullOrBlank) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                content: Text(
+                  "You must fill all fields !",
+                  style: TextStyle(color: Colors.red),
+                ),
+                title: Text('Error'),
+                actions: [
+                  FlatButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text('Ok'))
+                ],
+              ));
+      return false;
+    }
+    return true;
+  }
+
+  void goToBuildTemp(DataController c) {
+    Get.to(BuildTemp(
+      fontFamily: c.dataModel.value.fontFamily,
+      name: c.dataModel.value.name,
+      fontSize: c.dataModel.value.textFontSize,
+      color: c.dataModel.value.textColor,
+      index: index,
+    ));
   }
 
   Widget selectFont(bool isLandscape, Size size, String lable, context) {
@@ -277,6 +311,7 @@ class EditAndSave extends StatelessWidget {
               child: Container(
                 width: size.width * .34,
                 child: TextField(
+                  controller: nameController,
                   style: TextStyle(
                     color: dataController.dataModel.value.textColor,
                     fontFamily: dataController.dataModel.value.fontFamily,
@@ -293,8 +328,8 @@ class EditAndSave extends StatelessWidget {
     );
   }
 
-  Widget textField(
-      String hintText, String lable, Size size, bool isLandscape, context) {
+  Widget textField(String hintText, String lable, Size size, bool isLandscape,
+      context, TextEditingController controller) {
     return Align(
       alignment: Alignment.topLeft,
       child: Column(
@@ -313,22 +348,22 @@ class EditAndSave extends StatelessWidget {
             width: isLandscape ? size.width * .5 : size.width * .7,
             height: isLandscape ? size.height * .1 : size.height * .070,
             child: TextField(
-              decoration: InputDecoration(
-                hintText: hintText,
-                filled: true,
-                fillColor: Theme.of(context).primaryColor,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                      width: 0, color: Theme.of(context).primaryColor),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                      width: 0, color: Theme.of(context).primaryColor),
-                ),
-              ),
-            ),
+                controller: controller,
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  filled: true,
+                  fillColor: Theme.of(context).primaryColor,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                        width: 0, color: Theme.of(context).primaryColor),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                        width: 0, color: Theme.of(context).primaryColor),
+                  ),
+                )),
           ),
         ],
       ),

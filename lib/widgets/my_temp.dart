@@ -13,23 +13,28 @@ class MyTemp extends StatelessWidget {
       this.index});
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Image.asset('assets/c/$index.jpg'),
-        //TODO: Implement Responsive position depended on fontFamily AND fontSize
-        Positioned(
-          top: 140,
-          left: 130,
-          child: Text(
-            name,
-            style: TextStyle(
-              fontSize: fontSize.toDouble(),
-              fontFamily: fontFamily,
-              color: color,
-            ),
+    final size = MediaQuery.of(context).size;
+    final isLandescape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    return Container(
+      width: double.infinity,
+      height: isLandescape ? size.height * .8 : size.height * 4,
+      child: Center(
+        child: Text(
+          name,
+          style: TextStyle(
+            fontSize: fontSize.toDouble(),
+            fontFamily: fontFamily,
+            color: color,
           ),
         ),
-      ],
+      ),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+        image: AssetImage(
+          'assets/c/$index.jpg',
+        ),
+      )),
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'file:///C:/Users/like/AndroidStudioProjects/certificate_dsc_app/lib/screen/final_page.dart';
+import 'package:certificate_dsc_app/screen/final_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../main.dart';
@@ -51,10 +51,13 @@ class ChooseTemplatePage extends StatelessWidget {
       children: [
         InkWell(
           child: Container(
-            child: Image(
-              image: AssetImage('assets/c/$index.jpg'),
+            child: FadeInImage(
+              placeholder: AssetImage(""),
+              width: size.width * .9,
+              image: AssetImage(
+                'assets/c/$index.jpg',
+              ),
             ),
-            width: size.width * .9,
           ),
           onTap: () {
             Get.to(EditAndSave(

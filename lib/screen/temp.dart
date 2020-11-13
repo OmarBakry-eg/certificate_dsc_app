@@ -1,12 +1,9 @@
-import 'dart:ffi';
 import 'dart:typed_data';
-import 'package:certificate_dsc_app/controller/controller.dart';
 import 'package:certificate_dsc_app/widgets/convertion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:uuid/uuid.dart';
 import '../main.dart';
-import 'package:get/get.dart';
 import 'package:save_in_gallery/save_in_gallery.dart';
 import 'package:certificate_dsc_app/widgets/my_temp.dart';
 import 'package:certificate_dsc_app/widgets/utils.dart';
